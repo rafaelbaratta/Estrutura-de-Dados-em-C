@@ -11,6 +11,9 @@
 
 #define MAX_CARACTERES 256
 
+#define ARQUIVO_TXT "./data/dados.txt"
+#define ARQUIVO_DAT "./data/dados.dat"
+
 // FUN합ES PARA ENTRADA DE DADOS
 
 int lerInteiro(char *mensagem, int min, int max);
@@ -23,6 +26,11 @@ int isNull(void *ponteiro);
 void liberar(void **ponteiro);
 
 // ============================================================================
+
+// FUN합ES PARA GRAVA플O E LEITURA DOS DADOS
+
+int gravarDados();
+int recuperarDados();
 
 typedef struct no {
     int codigo;
@@ -40,11 +48,13 @@ int listaVazia();
 no* percorrerLista(no* ponteiro);
 no* percorrerAtePonteiro(no *percorre, no *limite);
 void liberarPonteiros();
+void limparPonteiros();
 
 // FUN합ES PARA MANIPULA플O DA LISTA
 
 void entradaDados();
 
+void classificacao();
 void inserir();
 void exibir();
 int procurar(int procura);

@@ -8,7 +8,13 @@ int main() {
     setlocale(LC_ALL, "portuguese");
     int opcao = 0;
 
+    if (!recuperarDados()){
+        printf("\nHouve um erro na recuperação dos dados\n");
+        return 1;
+    }
+
     do {
+        limparPonteiros();
         imprimirMenu();
         printf("       [1] Inserir dados\n");
         printf("       [2] Exibir dados\n");
@@ -17,7 +23,7 @@ int main() {
         printf("       [5] Remover dados\n\n");
         printf("       [0] Encerrar programa\n\n");
         printf("------------------------------------------------\n\n");
-        opcao = lerInteiro("Escolha uma das opç?es acima para executar: ", 0, 5);
+        opcao = lerInteiro("Escolha uma das opções acima para executar: ", 0, 5);
 
 
         switch(opcao){
@@ -27,10 +33,15 @@ int main() {
             case 4: menuAlterar(); break;
             case 5: menuExcluir(); break;
             case 0: break;
-            default: printf("Opç?o inválida! Tente novamente!\n"); getch(); break;
+            default: printf("Opção inválida! Tente novamente!\n"); getch(); break;
         }
 
     } while (opcao);
+
+    if (!gravarDados()){
+        printf("\nHouve um erro na gravação dos dados\n");
+        return 1;
+    }
 
     liberarPonteiros();
     return 0;

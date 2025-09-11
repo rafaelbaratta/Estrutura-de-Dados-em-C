@@ -94,6 +94,56 @@ int validarCodigo(int codigo) {
     return 0;
 }
 
+// FUN합ES PARA GRAVA플O E LEITURA DOS DADOS
+
+int gravarDados(){
+    FILE *arquivo_txt = fopen(ARQUIVO_TXT, "w");
+    FILE *arquivo_dat = fopen(ARQUIVO_DAT, "wb");
+
+    if (isNull(arquivo_dat) || isNull(arquivo_txt)){
+        return 0;
+    }
+
+    auxiliar = corrente = inicio;
+    while (corrente != NULL){
+        fwrite(auxiliar, sizeof(no), 1, arquivo_dat);
+        fprintf(arquivo_txt, "%i\n%s\n%i", corrente->codigo, corrente->nome, corrente->idade);
+        corrente = corrente->next;
+        liberar((void**) auxiliar);
+        auxiliar = corrente;
+    }
+
+    fclose(arquivo_dat);
+    fclose(arquivo_txt);
+    return 1;
+}
+
+int recuperarDados(){
+    FILE *arquivo_dat = fopen(ARQUIVO_DAT, "rb");
+
+    if (isNull(arquivo_dat)){
+        return 0;
+    }
+
+    corrente = (no*)malloc(sizeof(no));
+    while(fread(corrente, sizeof(no), 1 , arquivo_dat)){
+
+        if (isNull(inicio)){
+            inicio = auxiliar = corrente;
+        } else {
+            auxiliar->next = corrente;
+            auxiliar = corrente;
+        }
+
+        corrente->next = NULL;
+        corrente = NULL;
+        corrente = (no*)malloc(sizeof(no));
+    }
+    
+    fclose(arquivo_dat);
+    return 1;
+}
+
 // FUN합ES DE CONTROLE DOS PONTEIROS
 
 int listaVazia() {
@@ -128,6 +178,10 @@ void liberarPonteiros(){
     inicio = corrente = auxiliar = NULL;
 }
 
+void limparPonteiros(){
+    auxiliar = corrente = NULL;
+}
+
 // FUN합ES PARA MANIPULA플O DA LISTA
 
 void entradaDados(){
@@ -146,16 +200,37 @@ void entradaDados(){
     auxiliar->idade = lerInteiro("\nDigite sua idade: ", 0, MAX_INT);
 }
 
-void inserir() {
-    auxiliar->next = NULL;
+void classificacao(){
+    corrente = inicio;
+    if (auxiliar->codigo < inicio->codigo){
+        inicio = auxiliar;
+        auxiliar->next = corrente;
+        return;
+    }
+    
+    while (!isNull(corrente->next)){
+        if (auxiliar->codigo >= corrente->codigo && auxiliar->codigo <= corrente->next->codigo){
+            auxiliar->next = corrente->next;
+            corrente->next = auxiliar;
+            return;
+        }
 
+        corrente = corrente->next;
+    }
+
+    corrente->next = auxiliar;
+    auxiliar->next = NULL;
+    return;
+}
+
+void inserir() {
     if (listaVazia()){
         inicio = auxiliar;
+        auxiliar->next = NULL;
         return;
     }
 
-    corrente = percorrerLista(corrente);
-    corrente->next = auxiliar;
+    classificacao();
 }
 
 void exibir() {
@@ -186,6 +261,12 @@ void alterar() {
     corrente->codigo = auxiliar->codigo;
     strcpy(corrente->nome, auxiliar->nome);
     corrente->idade = auxiliar->idade;
+
+    auxiliar = corrente;
+    corrente = percorrerAtePonteiro(corrente, auxiliar);
+    corrente->next = corrente->next->next;
+
+    classificacao();
 }
 
 void excluir() {
@@ -296,7 +377,6 @@ void menuAlterar() {
         entradaDados();
         alterar();
         printf("\nDados alterados com sucesso!\n");
-        exibir();
     }
 
     getch();
