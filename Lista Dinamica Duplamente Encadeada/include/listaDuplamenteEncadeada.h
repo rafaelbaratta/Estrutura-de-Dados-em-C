@@ -46,8 +46,9 @@ void limparPonteiros();
 
 void entradaDados();
 
-void inserir();
+int inserir();
 void exibir();
+void exibirTodos(int ordemCrescente);
 int procurar(int procura);
 void alterar();
 void excluir();
