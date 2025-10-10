@@ -2,11 +2,17 @@
 
 #define MAX_BUFFER 256
 
-typedef struct pilha{
-    struct pilha *back;
+typedef struct pilhaOp{
+    struct pilhaOp *back;
     char operador;
-    struct pilha *next;
-} Pilha;
+    struct pilhaOp *next;
+} PilhaOp;
+
+typedef struct pilhaNum{
+    struct pilhaNum *back;
+    int numero;
+    struct pilhaNum *next;
+} PilhaNum;
 
 extern const char operadores[];
 
@@ -16,8 +22,10 @@ void imprimirMenu();
 
 // FUNÇÕES PARA CONTROLE DA PILHA
 
-Pilha *empilhar(Pilha *topo, char operador);
-Pilha *desempilhar(Pilha *topo);
+PilhaOp *empilharOperador(PilhaOp *topo, char operador);
+PilhaOp *desempilharOperador(PilhaOp *topo);
+PilhaNum *empilharNumero(PilhaNum *topo, int numero);
+PilhaNum *desempilharNumero(PilhaNum *topo);
 
 // FUNÇÕES PARA CONTROLE DAS EXPRESSÕES
 
@@ -29,3 +37,8 @@ int expressaoValida(char *expressao);
 
 int prioridade(char operador);
 void organizarExpressao(char *expressao);
+
+// FUNÇÕES PARA CALCULAR A EXPRESSÃO
+
+int operacoes(int num1, int num2, char operador);
+int calcular(char *expressao);

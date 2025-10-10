@@ -18,14 +18,15 @@ int main() {
             lerExpressao("Digite uma expressão válida: ", expressao);
         }
 
-        organizarExpressao(expressao);
-
         system("cls");
-        printf("\n%s\n", expressao);
+        organizarExpressao(expressao);
+        printf("\nExpressão NPR: %s\n", expressao);
+
+        printf("\nResultado: %i\n", calcular(expressao));
         
         printf("\nDigite S para outra expressão ou qualquer tecla para encerrar o programa: ");
 
-    } while (getch() == 'S');
+    } while (toupper(getch()) == 'S');
     return 0;
 }
 

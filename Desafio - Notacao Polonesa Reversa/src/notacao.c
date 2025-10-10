@@ -17,8 +17,8 @@ void imprimirMenu() {
 
 // FUNÇÕES PARA CONTROLE DA PILHA
 
-Pilha *empilhar(Pilha *topo, char operador) {
-    Pilha* auxiliar = (Pilha*)malloc(sizeof(Pilha));
+PilhaOp *empilharOperador(PilhaOp *topo, char operador) {
+    PilhaOp* auxiliar = (PilhaOp*)malloc(sizeof(PilhaOp));
     auxiliar->back = NULL;
     auxiliar->next = NULL;
     auxiliar->operador = operador;
@@ -34,12 +34,48 @@ Pilha *empilhar(Pilha *topo, char operador) {
     return topo;
 }
 
-Pilha *desempilhar(Pilha *topo) {
+PilhaOp *desempilharOperador(PilhaOp *topo) {
     if (topo == NULL) {
         return topo;
     }
 
-    Pilha* auxiliar = topo;
+    PilhaOp* auxiliar = topo;
+
+    if (topo->back != NULL) {
+        topo = topo->back;
+        topo->next = NULL;
+        free(auxiliar);
+    } else {
+        free(topo);
+        topo = NULL;
+    }
+
+    return topo;
+}
+
+PilhaNum *empilharNumero(PilhaNum *topo, int numero) {
+    PilhaNum* auxiliar = (PilhaNum*)malloc(sizeof(PilhaNum));
+    auxiliar->back = NULL;
+    auxiliar->next = NULL;
+    auxiliar->numero = numero;
+
+    if (topo == NULL) {
+        topo = auxiliar;
+        return topo;
+    }
+
+    topo->next = auxiliar;
+    auxiliar->back = topo;
+    topo = auxiliar;
+    return topo;
+}
+
+PilhaNum *desempilharNumero(PilhaNum *topo) {
+    if (topo == NULL) {
+        return topo;
+    }
+
+    PilhaNum* auxiliar = topo;
 
     if (topo->back != NULL) {
         topo = topo->back;
@@ -82,7 +118,7 @@ void limparEspacos(char *expressao) {
 
 int expressaoValida(char *expressao) {
     for (size_t i = 0; i < strlen(expressao); i++) {
-        if (!isalnum(expressao[i]) && expressao[i] != '(' && expressao[i] != ')') {
+        if (!isdigit(expressao[i]) && expressao[i] != '(' && expressao[i] != ')') {
             int operador = 0;
             for (size_t j = 0; j < strlen(operadores); j++) {
                 if (expressao[i] == operadores[j]) {
@@ -110,7 +146,7 @@ int prioridade(char operador) {
 }
 
 void organizarExpressao(char *expressao) {
-    Pilha *topo = NULL;
+    PilhaOp *topo = NULL;
     char expressaoOrganizada[MAX_BUFFER];
     int indiceExpressao = 0;
 
@@ -123,18 +159,18 @@ void organizarExpressao(char *expressao) {
         }
 
         if(expressao[i] == '('){
-            topo = empilhar(topo, expressao[i]);
+            topo = empilharOperador(topo, expressao[i]);
         }
 
         if(expressao[i] == ')'){
             while(topo->operador != '('){
                 expressaoOrganizada[indiceExpressao] = topo->operador;
                 indiceExpressao++;
-                topo = desempilhar(topo);
+                topo = desempilharOperador(topo);
             }
 
             if(topo != NULL && topo->operador == '('){
-                topo = desempilhar(topo);
+                topo = desempilharOperador(topo);
             }
         }
 
@@ -144,10 +180,10 @@ void organizarExpressao(char *expressao) {
                     while (topo != NULL && prioridade(expressao[i]) <= prioridade(topo->operador) && topo->operador != '(') {
                         expressaoOrganizada[indiceExpressao] = topo->operador;
                         indiceExpressao++;
-                        topo = desempilhar(topo);
+                        topo = desempilharOperador(topo);
                     }
                 }
-                topo = empilhar(topo, expressao[i]);
+                topo = empilharOperador(topo, expressao[i]);
                 break;
             }
         }
@@ -156,11 +192,51 @@ void organizarExpressao(char *expressao) {
     while (topo != NULL) {
         expressaoOrganizada[indiceExpressao] = topo->operador;
         indiceExpressao++;
-        topo = desempilhar(topo);
+        topo = desempilharOperador(topo);
     }
 
     expressaoOrganizada[indiceExpressao] = '\0';
 
     strcpy(expressao, expressaoOrganizada);
     return;
+}
+
+// FUNÇÕES PARA CALCULAR A EXPRESSÃO
+
+int operacoes(int num1, int num2, char operador) {
+    switch (operador) {
+        case '+': return num1 + num2;
+        case '-': return num1 - num2;
+        case '*': return num1 * num2;
+        case '/': 
+            if (num2 == 0){
+                printf("\nErro: Divisão por 0!\n");
+                exit(0);
+            }
+            return num1 / num2;
+        default: return 0;
+    }
+}
+
+int calcular(char *expressao) {
+    PilhaNum* topo = NULL;
+
+    for (size_t i = 0; i < strlen(expressao); i++) {
+        if (isdigit(expressao[i])) {
+            topo = empilharNumero(topo, expressao[i] - '0');
+            continue;
+        }
+
+        for (size_t j = 0; j < strlen(operadores); j++){
+            if (expressao[i] == operadores[j]) {
+                int num2 = topo->numero;
+                topo = desempilharNumero(topo);
+                int num1 = topo->numero;
+                topo = desempilharNumero(topo);
+                topo = empilharNumero(topo, operacoes(num1, num2, expressao[i]));
+            }
+        }
+    }
+
+    return topo->numero;
 }
