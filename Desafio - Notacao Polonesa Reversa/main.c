@@ -12,17 +12,16 @@ int main() {
 
     do {
         imprimirMenu();
+        printf("  --- Apenas números inteiros de um dígito ---  \n\n");
         lerExpressao("Digite uma expressão matemática: ", expressao);
 
         while (!expressaoValida(expressao)) {
             lerExpressao("Digite uma expressão válida: ", expressao);
         }
 
-        system("cls");
         organizarExpressao(expressao);
         printf("\nExpressão NPR: %s\n", expressao);
-
-        printf("\nResultado: %i\n", calcular(expressao));
+        printf("\nResultado: %lf\n", calcular(expressao));
         
         printf("\nDigite S para outra expressão ou qualquer tecla para encerrar o programa: ");
 

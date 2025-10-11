@@ -53,7 +53,7 @@ PilhaOp *desempilharOperador(PilhaOp *topo) {
     return topo;
 }
 
-PilhaNum *empilharNumero(PilhaNum *topo, int numero) {
+PilhaNum *empilharNumero(PilhaNum *topo, double numero) {
     PilhaNum* auxiliar = (PilhaNum*)malloc(sizeof(PilhaNum));
     auxiliar->back = NULL;
     auxiliar->next = NULL;
@@ -117,18 +117,41 @@ void limparEspacos(char *expressao) {
 }
 
 int expressaoValida(char *expressao) {
+    int ultimoFoiOperador = 0;
+    int parentesesAbertura = 0;
+    int parentesesFechamento = 0;
     for (size_t i = 0; i < strlen(expressao); i++) {
         if (!isdigit(expressao[i]) && expressao[i] != '(' && expressao[i] != ')') {
+            if (ultimoFoiOperador) {
+                return 0;
+            }
             int operador = 0;
             for (size_t j = 0; j < strlen(operadores); j++) {
                 if (expressao[i] == operadores[j]) {
                     operador = 1;
+                    ultimoFoiOperador = 1;
                 }
             }
             if (!operador) {
                 return 0;
             }
+        } else {
+            ultimoFoiOperador = 0;
+            if (expressao[i] == '(') {
+                parentesesAbertura++;
+            } else {
+                if (expressao[i] == ')') {
+                    if (parentesesAbertura > parentesesFechamento){
+                        parentesesFechamento++;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
         }
+    }
+    if (parentesesAbertura != parentesesFechamento) {
+        return 0;
     }
     return 1;
 }
@@ -203,7 +226,7 @@ void organizarExpressao(char *expressao) {
 
 // FUNÇÕES PARA CALCULAR A EXPRESSÃO
 
-int operacoes(int num1, int num2, char operador) {
+double operacoes(double num1, double num2, char operador) {
     switch (operador) {
         case '+': return num1 + num2;
         case '-': return num1 - num2;
@@ -218,7 +241,7 @@ int operacoes(int num1, int num2, char operador) {
     }
 }
 
-int calcular(char *expressao) {
+double calcular(char *expressao) {
     PilhaNum* topo = NULL;
 
     for (size_t i = 0; i < strlen(expressao); i++) {
@@ -229,9 +252,9 @@ int calcular(char *expressao) {
 
         for (size_t j = 0; j < strlen(operadores); j++){
             if (expressao[i] == operadores[j]) {
-                int num2 = topo->numero;
+                double num2 = topo->numero;
                 topo = desempilharNumero(topo);
-                int num1 = topo->numero;
+                double num1 = topo->numero;
                 topo = desempilharNumero(topo);
                 topo = empilharNumero(topo, operacoes(num1, num2, expressao[i]));
             }

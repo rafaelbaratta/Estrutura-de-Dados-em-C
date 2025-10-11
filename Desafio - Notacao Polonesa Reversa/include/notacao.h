@@ -10,7 +10,7 @@ typedef struct pilhaOp{
 
 typedef struct pilhaNum{
     struct pilhaNum *back;
-    int numero;
+    double numero;
     struct pilhaNum *next;
 } PilhaNum;
 
@@ -24,7 +24,7 @@ void imprimirMenu();
 
 PilhaOp *empilharOperador(PilhaOp *topo, char operador);
 PilhaOp *desempilharOperador(PilhaOp *topo);
-PilhaNum *empilharNumero(PilhaNum *topo, int numero);
+PilhaNum *empilharNumero(PilhaNum *topo, double numero);
 PilhaNum *desempilharNumero(PilhaNum *topo);
 
 // FUNÇÕES PARA CONTROLE DAS EXPRESSÕES
@@ -40,5 +40,5 @@ void organizarExpressao(char *expressao);
 
 // FUNÇÕES PARA CALCULAR A EXPRESSÃO
 
-int operacoes(int num1, int num2, char operador);
-int calcular(char *expressao);
+double operacoes(double num1, double num2, char operador);
+double calcular(char *expressao);
