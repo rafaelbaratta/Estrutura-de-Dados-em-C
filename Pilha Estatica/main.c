@@ -16,7 +16,7 @@ int main() {
         printf("       [3] TOP - Ver topo\n\n");
         printf("       [0] Encerrar programa\n\n");
         printf("-----------------------------------------------\n\n");
-        opcao = lerInteiro("Escolha uma das opções acima para executar: ", 0, 5);
+        opcao = lerInteiro("Escolha uma das opções acima para executar: ", 0, 3);
 
 
         switch(opcao){

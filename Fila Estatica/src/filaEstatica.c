@@ -172,6 +172,15 @@ void consultar(Fila *f) {
     printf("Idade: %i\n", f->dados[0].idade);
 }
 
+void exibir(Fila* f) {
+    for (int i = 0; i < f->quantidade; i++) {
+        printf("===  ----- Cadastro %i -----  ===\n", i + 1);
+        printf("Código: %i\n", f->dados[i].codigo);
+        printf("Nome: %s\n", f->dados[i].nome);
+        printf("Idade: %i\n", f->dados[i].idade);
+    }
+}
+
 // FUNÇÕES PARA CONTROLE DOS MENUS
 
 Fila *menuEnfileirar(Fila *f) {
@@ -186,7 +195,7 @@ Fila *menuEnfileirar(Fila *f) {
 
     f = enfileirar(f, entradaDados(f));
 
-    printf("Dados enfileirados com sucesso!");
+    printf("\nDados enfileirados com sucesso!");
     
     getch();
     return f;
@@ -232,3 +241,17 @@ void menuConsultar(Fila *f) {
     return;
 }
 
+void menuExibir(Fila *f) {
+    imprimirMenu();
+    printf("---------------- Exibir  Dados ----------------\n\n");
+
+    if (filaVazia(f)){
+        printf("Não há nenhum dado na fila!");
+        getch();
+        return;
+    }
+
+    exibir(f);
+    getch();
+    return;
+}

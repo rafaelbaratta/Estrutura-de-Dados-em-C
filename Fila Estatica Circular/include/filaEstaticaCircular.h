@@ -55,10 +55,12 @@ Dado entradaDados(Fila *f);
 Fila *enfileirar(Fila *f, Dado entrada);
 Fila *desenfileirar(Fila *f);
 void consultar(Fila *f);
+void exibir(Fila *f);
 
 // FUNÇÕES PARA CONTROLE DOS MENUS
 
 Fila *menuEnfileirar(Fila *f);
 Fila *menuDesenfileirar(Fila *f);
 void menuConsultar(Fila *f);
+void menuExibir(Fila *f);
 
