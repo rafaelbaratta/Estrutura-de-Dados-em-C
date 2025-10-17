@@ -12,7 +12,7 @@ int main() {
         imprimirMenu();
         printf("       [1] Enfileirar\n");
         printf("       [2] Desenfileirar\n");
-        printf("       [3] Consultar\n\n");
+        printf("       [3] Consultar\n");
         printf("       [4] Exibir\n\n");
         printf("       [0] Encerrar programa\n\n");
         printf("-----------------------------------------------\n\n");

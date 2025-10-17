@@ -187,8 +187,9 @@ Pilha *menuEmpilhar(Pilha *p) {
 
     p = empilhar(p, entradaDados(p));
 
-    printf("Dados empilhados com sucesso!");
+    printf("\nDados empilhados com sucesso!");
 
+    getch();
     return p;
 }
 

@@ -169,7 +169,7 @@ void enfileirar(No* auxiliar) {
 void desenfileirar() {
     if (inicio == final){
         liberar((void**) &inicio);
-        liberar((void**) &final);
+        final = NULL;
         return;
     }
 

@@ -195,8 +195,9 @@ struct no* menuEmpilhar(struct no* pilha) {
     struct no* auxiliar = entradaDados(pilha);
     pilha = empilhar(pilha, auxiliar);
 
-    printf("Dados empilhados com sucesso!");
+    printf("\nDados empilhados com sucesso!");
 
+    getch();
     return pilha;
 }
 
