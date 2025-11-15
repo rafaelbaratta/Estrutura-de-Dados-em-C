@@ -111,8 +111,11 @@ int filaCheia(Fila *f) {
 }
 
 Fila *criarFila(){
-    Fila *f;
-    f = (Fila*) malloc(sizeof(Fila));
+    Fila *f = (Fila*) malloc(sizeof(Fila));
+    if (isNull(f)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
 
     if(!isNull(f)){
         f->quantidade = 0;

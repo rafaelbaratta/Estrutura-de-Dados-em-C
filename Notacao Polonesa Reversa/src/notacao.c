@@ -19,6 +19,11 @@ void imprimirMenu() {
 
 PilhaOp *empilharOperador(PilhaOp *topo, char operador) {
     PilhaOp* auxiliar = (PilhaOp*)malloc(sizeof(PilhaOp));
+    if (isNull(auxiliar)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
+
     auxiliar->back = NULL;
     auxiliar->next = NULL;
     auxiliar->operador = operador;
@@ -55,6 +60,11 @@ PilhaOp *desempilharOperador(PilhaOp *topo) {
 
 PilhaNum *empilharNumero(PilhaNum *topo, double numero) {
     PilhaNum* auxiliar = (PilhaNum*)malloc(sizeof(PilhaNum));
+    if (isNull(auxiliar)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
+    
     auxiliar->back = NULL;
     auxiliar->next = NULL;
     auxiliar->numero = numero;

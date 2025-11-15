@@ -126,6 +126,11 @@ int recuperarDados(){
     }
 
     corrente = (no*)malloc(sizeof(no));
+    if (isNull(corrente)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
+
     while(fread(corrente, sizeof(no), 1 , arquivo_dat)){
 
         if (isNull(inicio)){
@@ -138,6 +143,10 @@ int recuperarDados(){
         corrente->next = NULL;
         corrente = NULL;
         corrente = (no*)malloc(sizeof(no));
+        if (isNull(corrente)) {
+            printf("Erro de alocação de memória!\n");
+            return NULL;
+        }
     }
     
     fclose(arquivo_dat);

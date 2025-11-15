@@ -124,8 +124,11 @@ void liberarPonteiros(struct no* topo) {
 // FUNÇÕES PARA MANIPULAÇÃO DA PILHA
 
 struct no* entradaDados(struct no* pilha) {
-    struct no *auxiliar;
-    auxiliar = (no*)malloc(sizeof(no));
+    struct no *auxiliar = (no*)malloc(sizeof(no));
+    if (isNull(auxiliar)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
 
     int codigo, codigoExiste;
 

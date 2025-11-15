@@ -97,8 +97,11 @@ int listaVazia(Lista* li){
 }
 
 Lista* criarLista(){
-    Lista *li;
-    li = (Lista*) malloc(sizeof(Lista));
+    Lista *li = (Lista*) malloc(sizeof(Lista));
+    if (isNull(li)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
 
     if(!isNull(li)){
         li->quantidade = 0;

@@ -113,8 +113,11 @@ int pilhaCheia(Pilha *p) {
 }
 
 Pilha *criarPilha(){
-    Pilha *p;
-    p = (Pilha*) malloc(sizeof(Pilha));
+    Pilha *p = (Pilha*) malloc(sizeof(Pilha));
+    if (isNull(p)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
 
     if(!isNull(p)){
         p->quantidade = 0;

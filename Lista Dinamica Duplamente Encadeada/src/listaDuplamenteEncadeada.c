@@ -380,6 +380,11 @@ void menuAlterar() {
         printf("\nCadastro não encontrado no sistema!");
     } else {
         auxiliar = (no*) malloc(sizeof(no));
+        if (isNull(auxiliar)) {
+            printf("Erro de alocação de memória!\n");
+            getch();
+            return NULL;
+        }
         printf("\nDados Atuais: \n");
         exibir();
 

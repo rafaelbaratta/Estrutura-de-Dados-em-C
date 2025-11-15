@@ -127,8 +127,11 @@ void liberarPonteiros() {
 // FUNÇÕES PARA MANIPULAÇÃO DA FILA
 
 No* entradaDados() {
-    No *auxiliar;
-    auxiliar = (No*)malloc(sizeof(No));
+    No *auxiliar = (No*)malloc(sizeof(No));
+    if (isNull(auxiliar)) {
+        printf("Erro de alocação de memória!\n");
+        return NULL;
+    }
 
     int codigo, codigoExiste;
 
