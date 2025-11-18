@@ -6,16 +6,9 @@
 #define MIN_INT -2147483648
 #define MAX_INT 2147483647
 
-#define MIN_DOUBLE -1.797693e+308
-#define MAX_DOUBLE 1.797693e+308
-
-#define MAX_CARACTERES 256
-
 // FUN합ES PARA ENTRADA DE DADOS
 
 int lerInteiro(char *mensagem, int min, int max);
-double lerDecimal(char *mensagem, double min, double max);
-char *lerString(char *mensagem);
 
 // FUN합ES PARA MANIPULA플O DE PONTEIROS
 
@@ -24,15 +17,13 @@ int isNull(void *ponteiro);
 // ============================================================================
 
 typedef struct dado {
-    char diretorio[MAX_CARACTERES];
+    int valor;
 } Dado;
 
 typedef struct no {
-    struct no *pai;
-    struct no *irmaoAnterior;
     struct dado dado;
-    struct no *primeiroFilho;
-    struct no *proximoIrmao;
+    struct no *direita;
+    struct no *esquerda;
 } No;
 
 void imprimirMenu();
@@ -41,25 +32,22 @@ void imprimirMenu();
 
 void liberarPonteiros(No *raiz);
 int arvoreVazia(No *raiz);
-int arvoreSemFilhos(No *raiz);
 
 // FUN합ES PARA MANIPULA플O DA 핾VORE
 
 No *entradaDados();
 
 No *inserir(No *raiz, No *auxiliar);
-No *procurar(No *raiz, char *procura);
-No* excluir(No* raiz, No *exclusao);
-int exibirAtual(No *raiz);
-void exibirTudo (No *raiz, int nivel);
+No *procurar(No *raiz, int procura);
+No *excluir(No *raiz, int exclusao);
+void exibir(No *raiz);
+
+No *menorDireita(No *corrente);
 
 // FUN합ES PARA CONTROLE DOS MENUS
 
 No *menuInserir(No *raiz);
 void menuProcurar(No *raiz);
 void menuExibir(No* raiz);
-No *menuRenomear(No *raiz);
 No *menuExcluir(No *raiz);
 
-No *menuNavegar(No *raiz);
-No *procurarDiretorio(No* auxiliar);

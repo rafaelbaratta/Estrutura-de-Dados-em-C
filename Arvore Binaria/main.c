@@ -1,9 +1,7 @@
 #include <conio.h>
 #include <locale.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "arvoreGenerica.h"
+#include "arvoreBinaria.h"
 
 int main() {
     setlocale(LC_ALL, "portuguese");
@@ -15,18 +13,16 @@ int main() {
         printf("       [1] Inserir\n");
         printf("       [2] Procurar\n");
         printf("       [3] Exibir\n");
-        printf("       [4] Renomear\n");
-        printf("       [5] Excluir\n\n");
+        printf("       [4] Excluir\n\n");
         printf("       [0] Encerrar programa\n\n");
         printf("-----------------------------------------------\n\n");
-        opcao = lerInteiro("Escolha uma das opções acima para executar: ", 0, 5);
+        opcao = lerInteiro("Escolha uma das opções acima para executar: ", 0, 4);
 
         switch(opcao){
             case 1: raiz = menuInserir(raiz); break;
             case 2: menuProcurar(raiz); break;
             case 3: menuExibir(raiz); break;
-            case 4: raiz = menuRenomear(raiz); break;
-            case 5: raiz = menuExcluir(raiz); break;
+            case 4: raiz = menuExcluir(raiz); break;
             case 0: break;
             default: printf("Opção inválida! Tente novamente!\n"); getch(); break;
         }

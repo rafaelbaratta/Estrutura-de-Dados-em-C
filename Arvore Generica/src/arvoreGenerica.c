@@ -321,7 +321,7 @@ No *menuRenomear(No *raiz) {
     No *resultado = procurar(raiz, procura);
     free(procura);
 
-    if (resultado == NULL) {
+    if (isNull(resultado)) {
         printf("\nDado não encontrado na árvore!");
         getch();
         return raiz;
@@ -354,7 +354,7 @@ No *menuExcluir(No *raiz) {
     No *resultado = procurar(raiz, procura);
     free(procura);
 
-    if (resultado == NULL) {
+    if (isNull(resultado)) {
         printf("\nDado não encontrado na árvore!");
         getch();
         return raiz;
@@ -398,10 +398,17 @@ No *menuNavegar(No *raiz) {
         }
 
         printf("\n");
-        if (auxiliar != raiz) printf("[0] Voltar\n");
+        int min = 1, max = 1;
+        if (auxiliar != raiz) {
+            printf("[0] Voltar\n");
+            min = 0;
+        }
         printf("[1] Inserir Filho\n");
-        if (arvoreComFilhos) printf("[2] Avançar\n");
-        opcao = lerInteiro("\nEscolha uma das opções acima para executar: ", 0, 2);
+        if (arvoreComFilhos) {
+            printf("[2] Avançar\n");
+            max = 2;
+        }
+        opcao = lerInteiro("\nEscolha uma das opções acima para executar: ", min, max);
 
         switch (opcao) {
             case 0: auxiliar = auxiliar->pai; break;
